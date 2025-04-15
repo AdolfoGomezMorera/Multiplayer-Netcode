@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 
 namespace HelloWorld
@@ -66,15 +67,20 @@ namespace HelloWorld
         {
             if (IsOwner)
             {
-                var horizontal = Input.GetAxis("Horizontal");
-                var vertical = Input.GetAxis("Vertical");
-                var move = new Vector3(horizontal, 0, vertical) * 3 * Time.deltaTime;
-                transform.position += move;
-            }
+                Vector3 input = Vector3.zero;
 
-            if (IsServer)
-            {
-                Position.Value = transform.position;
+                if (Keyboard.current != null)
+                {
+                    if (Keyboard.current.wKey.isPressed) input += Vector3.forward;
+                    if (Keyboard.current.sKey.isPressed) input += Vector3.back;
+                    if (Keyboard.current.aKey.isPressed) input += Vector3.left;
+                    if (Keyboard.current.dKey.isPressed) input += Vector3.right;
+                }
+
+                if (input != Vector3.zero)
+                {
+                    transform.position += input.normalized * 3f * Time.deltaTime;
+                }
             }
         }
     }

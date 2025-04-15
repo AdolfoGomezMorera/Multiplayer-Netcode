@@ -138,6 +138,5 @@ public class PrimerScript : MonoBehaviour
     void TerminarJuego()
     {
         juegoTerminado = true;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
